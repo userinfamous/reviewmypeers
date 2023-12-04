@@ -1,2 +1,5 @@
+gunicorn==21.2.0
+requests==2.31.0
+virtualenv==20.24.5
+wget==3.2
 django==4.2.7
-
