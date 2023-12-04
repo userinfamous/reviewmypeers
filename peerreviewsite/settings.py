@@ -103,3 +103,6 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # This is where Django will collect static files for deployment.
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
  
+ CSRF_TRUSTED_ORIGINS = [
+    'https://reviewmypeers-production.up.railway.app'
+]
