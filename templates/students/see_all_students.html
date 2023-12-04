@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load rating_stars %}
+{% block content %}
+<h2 class="">Reviews On All Students</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Work Ethic</th>
+            <th>Timeliness</th>
+            <th>Leadership Skills</th>
+            <th>Charisma</th>
+            <th>Agreeableness</th>
+            <th>Pragmatism</th>
+            <th>Reliability</th>
+            <th>Trustworthiness</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.id }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.avg_work_ethic|rating_stars|safe|default:"N/A" }}</td>
+            <td>{{ student.avg_timeliness|rating_stars|safe|default:"N/A" }}</td>
+            <td>{{ student.avg_leadership_skills|rating_stars|safe|default:"N/A" }}</td>
+            <td>{{ student.avg_charisma|rating_stars|safe|default:"N/A" }}</td>
+            <td>{{ student.avg_agreeable|rating_stars|safe|default:"N/A" }}</td>
+            <td>{{ student.pragmatic_percentage|default:"N/A" }}%</td>
+            <td>{{ student.avg_reliability|rating_stars|safe|default:"N/A" }}</td>
+            <td>{{ student.avg_trustworthiness|rating_stars|safe|default:"N/A" }}</td>
+            <td><!-- Inside your for loop -->
+                <a class="button view-reviews-btn btn btn-primary" href="#popup{{ student.id }}" data-student-id="{{ student.id }}">View Reviews</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+   
+</table>
+<!-- Reviews Container -->
+<div id="reviews-container" style="display: none;">
+    <!-- Popup content will be loaded here -->
+</div>
+{% endblock %}
+{% block javascript %}
+<script>
+    // JavaScript to handle the button click and load reviews
+    const viewReviewsBtns = document.querySelectorAll('.view-reviews-btn');
+    const reviewsContainer = document.getElementById('reviews-container');
+
+    // Function to generate stars based on rating
+    function generateStars(rating) {
+        const stars = [];
+        for (let i = 0; i < 5; i++) {
+            stars.push(i < rating ? '★' : '☆');
+        }
+        return stars.join('');
+    }
+
+    viewReviewsBtns.forEach(btn => {
+        btn.addEventListener('click', async () => {
+            reviewsContainer.innerHTML = '';
+            reviewsContainer.style.display = 'block';
+            const studentId = btn.getAttribute('data-student-id');
+            
+            try {
+                const response = await fetch(`/get-reviews/?student_id=${studentId}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const reviews = await response.json();
+                
+                const reviewsHtml = `<span class="popup-close" onclick="closeReviews()">&times;</span>
+                                    <table class="reviews-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Reviewee</th>
+                                                <th>Work Ethic</th>
+                                                <th>Timeliness</th>
+                                                <th>Leadership Skills</th>
+                                                <th>Charisma</th>
+                                                <th>Agreeableness</th>
+                                                <th>Pragmatism</th>
+                                                <th>Reliability</th>
+                                                <th>Trustworthiness</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${reviews.map(review => `
+                                                <tr>
+                                                    <td>${review.reviewee__name}</td>
+                                                    <td>${generateStars(review.work_ethic)}</td>
+                                                    <td>${generateStars(review.timeliness)}</td>
+                                                    <td>${generateStars(review.leadership_skills)}</td>
+                                                    <td>${generateStars(review.charisma)}</td>
+                                                    <td>${generateStars(review.agreeable)}</td>
+                                                    <td>${review.pragmatic ? 'Yes' : 'No'}</td>
+                                                    <td>${generateStars(review.reliability)}</td>
+                                                    <td>${generateStars(review.trustworthiness)}</td>
+                                                </tr>
+                                            `).join('')}
+                                        </tbody>
+                                    </table>
+                                `;
+                reviewsContainer.innerHTML = reviewsHtml;
+                setupPopupButtons();
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+
+    function setupPopupButtons() {
+        document.querySelectorAll('.view-ratings-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                this.nextElementSibling.style.display = 'block';
+            });
+        });
+    }
+
+    function closeReviews() {
+        reviewsContainer.style.display = 'none';
+    }
+
+    document.addEventListener('click', function(event) {
+    // Check if the click is outside the reviews container
+        if (!reviewsContainer.contains(event.target) && !event.target.matches('.view-reviews-btn')) {
+            closeReviews();
+        }
+    });
+
+document.addEventListener('click', function(event) {
+    // Check if the click is outside the reviews container
+    if (!reviewsContainer.contains(event.target) && !event.target.matches('.view-reviews-btn')) {
+        closeReviews();
+    }
+});
+</script>
+{% endblock %}

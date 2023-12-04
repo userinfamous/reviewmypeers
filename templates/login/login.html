@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  .vertical-center {
+    min-height: 100vh; /* Fallback for browsers that do not support Custom Properties */
+    min-height: calc(100vh - 56px); /* Adjusted height considering navbar height if it's present */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
+<div class="vertical-center">
+  <div class="text-center">
+    <h2>Login</h2>
+    <form method="post" class="form-signin">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary btn-block">Login</button>
+      <hr>
+      <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+    </form>
+  </div>
+</div>
+{% endblock %}

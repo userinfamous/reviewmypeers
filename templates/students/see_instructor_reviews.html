@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load rating_stars %}
+{% block content %}
+
+<h2 >See Reviews On All Instructors</h2>
+{% if reviews %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Reviewed Instructor</th>
+            <th>Teaching Ability</th>
+            <th>Hard Grader</th>
+            <th>Articulate</th>
+            <th>Charisma</th>
+            <th>Insteresting</th>
+            <th>Timeliness</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for review in reviews %}
+        <tr>
+            <td>{{ review.instructor }}</td>
+            <td>{{ review.avg_teaching_ability|rating_stars|safe|default:"N/A" }}</td>
+            <td>{{ review.avg_hard_grader|rating_stars|safe|default:"N/A" }}</td>
+            <td>{{ review.avg_articulate|rating_stars|safe|default:"N/A" }}</td>
+            <td>{{ review.avg_charisma|rating_stars|safe|default:"N/A" }}</td>
+            <td>{{ review.avg_interesting|rating_stars|safe|default:"N/A" }}</td>
+            <td>{{ review.avg_timeliness|rating_stars|safe|default:"N/A" }}</td>
+            <td><!-- Inside your for loop -->
+                <a class="button view-reviews-btn btn btn-primary" href="#popup{{ review.id }}" data-instructor-id="{{ review.id }}">View Reviews</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<!-- Reviews Container -->
+<div id="reviews-container" style="display: none;">
+    <!-- Popup content will be loaded here -->
+</div>
+{% else %}
+<p>No reviews found.</p>
+{% endif %}
+{% endblock %}
+{% block javascript %}
+<script>
+    
+    // JavaScript to handle the button click and load reviews
+    const viewReviewsBtns = document.querySelectorAll('.view-reviews-btn');
+    const reviewsContainer = document.getElementById('reviews-container');
+
+    // Function to generate stars based on rating
+    function generateStars(rating) {
+        const stars = [];
+        for (let i = 0; i < 5; i++) {
+            stars.push(i < rating ? '★' : '☆');
+        }
+        return stars.join('');
+    }
+
+    viewReviewsBtns.forEach(btn => {
+        btn.addEventListener('click', async () => {
+            reviewsContainer.innerHTML = '';
+            reviewsContainer.style.display = 'block';
+            const studentId = btn.getAttribute('data-instructor-id');
+            
+            try {
+                const response = await fetch(`/get-reviews/?instructor_id=${instructorId}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const reviews = await response.json();
+                
+                const reviewsHtml = `<span class="popup-close" onclick="closeReviews()">&times;</span>
+                                    <table class="reviews-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Reviewee</th>
+                                                <th>Teaching Ability</th>
+                                                <th>Hard Grader</th>
+                                                <th>Articulate</th>
+                                                <th>Charisma</th>
+                                                <th>Insteresting</th>
+                                                <th>Timeliness</th>
+                                                <th>Details</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${reviews.map(review => `
+                                                <tr>
+                                                    <td>${review.reviewee__name}</td>
+                                                    <td>${generateStars(review.teaching_ability)}</td>
+                                                    <td>${generateStars(review.hard_grader)}</td>
+                                                    <td>${generateStars(review.articulate)}</td>
+                                                    <td>${generateStars(review.charisma)}</td>
+                                                    <td>${generateStars(review.innteresting)}</td>
+                                                    <td>${generateStars(review.timeliness)}</td> 
+                                                </tr>
+                                            `).join('')}
+                                        </tbody>
+                                    </table>
+                                `;
+                reviewsContainer.innerHTML = reviewsHtml;
+                setupPopupButtons();
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+    // JavaScript to handle the pop-ups
+    const viewCommentBtns = document.querySelectorAll('.view-comment-btn');
+    const commentPopups = document.querySelectorAll('.comment-popup');
+    const viewRatingsBtns = document.querySelectorAll('.view-ratings-btn');
+    const ratingsPopups = document.querySelectorAll('.ratings-popup');
+
+    viewCommentBtns.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+            commentPopups[index].classList.toggle('show-comment');
+        });
+    });
+
+    viewRatingsBtns.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+            ratingsPopups[index].classList.toggle('show-ratings');
+        });
+    });
+</script>
+{% endblock %}

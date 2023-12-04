@@ -1,0 +1,205 @@
+/* style.css */
+body {
+    padding-top: 56px; /* Offset for fixed navbar */
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    line-height: 60px; /* Vertically center the text there */
+    background-color: #333;
+}
+
+
+body, header {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.navbar-nav .nav-item.active .nav-link {
+    color: white;
+}
+
+.fa-star, .fa-star-quarter, .fa-star-half-alt {
+    color: gold;
+}
+
+/* CSS to style the footer */
+.footer {
+    background-color: #333; /* Choose your desired background color */
+    color: #fff; /* Choose your desired text color */
+    padding: 20px 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 1000; /* Ensure it's above other elements */
+}
+
+
+#reviews-container {
+    position: fixed; /* or absolute */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; /* or any other appropriate width */
+    max-height: 90%;
+    overflow-y: auto; /* allows scrolling if the content is too long */
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Make sure it's above other content */
+    border-radius: 10px;
+}
+
+.review-card {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #f7f7f7;
+    border-radius: 5px;
+}
+
+.close-reviews-btn {
+    cursor: pointer;
+    float: right;
+    padding: 5px 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+/* Add this to your CSS file */
+.reviews-table {
+    width: 100%; /* Adjust as needed */
+    border-collapse: separate;
+    border-spacing: 0 10px; /* Horizontal and vertical spacing */
+}
+
+.reviews-table th, .reviews-table td {
+    padding: 5px 10px; /* Padding inside each cell */
+    text-align: left; /* Align text to the left */
+    border-bottom: 1px solid #ddd; /* Optional: adds a line under each row for clarity */
+}
+
+/* Add CSS for the "X" mark */
+.popup-content {
+    position: relative;
+}
+
+.popup-close {
+    position: absolute;
+    top: 10px; /* Adjust the top position as needed */
+    right: 10px; /* Adjust the right position as needed */
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+    z-index: 2;
+}
+
+.popup-close:hover {
+    color: #06D85F;
+}
+
+.header-logo {
+    margin-left: 20px;
+    width: 40px;
+    height: auto;
+    border-radius: 30%; /* Makes the image circular */
+}
+
+.header-image {
+    width: 500px; /* Fixed width */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 30%; /* Circular edges */
+    display: block; /* Makes it possible to apply margin auto */
+    margin: 20px auto 0; /* Adds margin to the top and auto-margins on the sides */
+    margin-bottom: 8%;
+}
+
+/* Headers/Titles */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    /* Add additional styling like font-weight or size as needed */
+}
+
+/* Alternate Headers with Playfair Display */
+.header-playfair {
+    font-family: 'Playfair Display', serif;
+    /* Add additional styling like font-weight or size as needed */
+}
+
+/* Body Text */
+body, p {
+    font-family: 'Roboto', sans-serif;
+    /* Add additional styling like font-weight or size as needed */
+}
+
+/* Alternate Body Text with Open Sans */
+.body-open-sans {
+    font-family: 'Open Sans', sans-serif;
+    /* Add additional styling like font-weight or size as needed */
+}
+
+/* Accents/Callouts */
+.callout {
+    font-family: 'Lato', sans-serif;
+    /* Add additional styling like font-weight or size as needed */
+}
+
+/* Alternate Accents/Callouts with Raleway */
+.callout-raleway {
+    font-family: 'Raleway', sans-serif;
+    /* Add additional styling like font-weight or size as needed */
+}
+
+/* Navigation/Menu */
+nav, .menu {
+    font-family: 'Source Sans Pro', sans-serif;
+    /* Add additional styling like font-weight or size as needed */
+}
+
+/* Alternate Navigation/Menu with Nunito */
+.nav-nunito {
+    font-family: 'Nunito', sans-serif;
+    /* Add additional styling like font-weight or size as needed */
+}
+
+/* Specialty Fonts */
+.branding {
+    font-family: 'Merriweather', serif;
+    /* Add additional styling like font-weight or size as needed */
+}
+
+/* Alternate Specialty Fonts with Poppins */
+.branding-poppins {
+    font-family: 'Poppins', sans-serif;
+    /* Add additional styling like font-weight or size as needed */
+}
+
+h2 {
+    margin-top: 2%;
+}
+
+#revieweeId {
+    margin-top: 10px;
+}
+
+.comment-popup,
+.ratings-popup {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.show-comment,
+.show-ratings {
+    display: block;
+}

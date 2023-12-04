@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Image above the header -->
+<img src="{% static '/header-image.png' %}" alt="header-image" class="header-image">
+
+<header>
+    <h1>Welcome to Review My Peers!</h1>
+    <p>An innovative platform for peer-to-peer review and feedback within the academic community.</p>
+</header>
+
+<section id="description">
+    <h2>About This Site</h2>
+    <p>
+        Review My Peers is a tool designed for students to engage in a constructive review process. By allowing students to provide and receive feedback, we aim to foster a collaborative environment for academic growth and excellence.
+    </p>
+</section>
+
+<section id="instructions">
+    <h2>Getting Started</h2>
+    <ol>
+        <li><strong>See All Students:</strong> Explore student contributions in the 'See All Students' section to begin your peer reviews.</li>
+        <li><strong>See My Reviews:</strong> Track your submitted reviews under the 'See My Reviews' tab.</li>
+        <li><strong>See Instructor Reviews:</strong> Access feedback from instructors in the 'See Instructor Reviews' section to improve your reviewing skills.</li>
+    </ol>
+    <p>
+        To begin, select an option from the navigation menu and start your journey towards collaborative learning and improvement.
+    </p>
+</section>
+<section id="why-us">
+    <h2>Why Choose Review My Peers?</h2>
+    <ul>
+        <li><strong>Comprehensive Metrics:</strong> Unlike other platforms, we provide students with detailed metrics that assess various aspects of their peer reviews, including work ethic, timeliness, leadership skills, charisma, agreeableness, pragmatism, reliability, and trustworthiness.</li>
+        <li><strong>Collaborative Learning:</strong> Our platform fosters a collaborative learning environment by enabling students to engage in constructive peer reviews, promoting academic growth and excellence.</li>
+        <li><strong>Instructor Feedback:</strong> Access valuable feedback from instructors in the 'See Instructor Reviews' section, helping you improve your reviewing skills and enhance your academic performance.</li>
+        <!-- Add more unique selling points as needed -->
+    </ul>
+</section>
+<section id="student-gauge">
+    <h2>Students Can Gauge</h2>
+    <ul>
+        <li><strong>Work Ethic:</strong> Measures peer's opinion on your work ethic.</li>
+        <li><strong>Timeliness:</strong> Measures how on time and how on top of things a student is.</li>
+        <li><strong>Leadership Skills:</strong> Measures how good of a leader a student is to their peers.</li>
+        <li><strong>Charisma:</strong> Measures how much charisma their peers think of them.</li>
+        <li><strong>Agreeable:</strong> Measures how agreeable a person is.</li>
+        <li><strong>Pragmatic:</strong> Measures if a person is likely to be pragmatic.</li>
+        <li><strong>Reliability:</strong> Measures how reliable their peer thinks of them.</li>
+        <li><strong>Trustworthiness:</strong> Measures how much their peer trusts them.</li>
+    </ul>
+</section>
+
+<section id="instructor-gauge">
+    <h2>Instructors Can Be Gauged On</h2>
+    <ul>
+        <li><strong>Teaching Ability:</strong> Measures the instructor's effectiveness in teaching and conveying concepts.</li>
+        <li><strong>Hard Grader:</strong> Indicates how stringent or lenient the instructor is in grading.</li>
+        <li><strong>Articulate:</strong> Assesses how clear and understandable the instructor's communication is.</li>
+        <li><strong>Charisma:</strong> Reflects the instructor's ability to engage and inspire students.</li>
+        <li><strong>Interesting:</strong> Gauges how interesting and engaging the instructor's lessons and materials are.</li>
+        <li><strong>Timeliness:</strong> Measures the instructor's punctuality in starting classes, meeting deadlines, and responding to queries.</li>
+    </ul>
+</section>
+
+{% endblock %}

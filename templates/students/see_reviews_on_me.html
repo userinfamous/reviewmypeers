@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load rating_stars %}
+{% block content %}
+
+<h2>See Reviews On Me</h2>
+{% if reviews %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Reviewed By</th>
+            <th>Text</th>
+            <th>Ratings</th>
+            <th>Created At</th>
+            <th>Class Code</th>
+            <th>Project Title</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for review in reviews %}
+        <tr>
+            <td>{{ review.reviewer.name }}</td>
+            <td>
+                <button class="view-comment-btn btn btn-primary">View Comment</button>
+                <div class="comment-popup">
+                    <p>{{ review.text }}</p>
+                </div>
+            </td>
+            <td>
+                <button class="view-ratings-btn btn btn-primary">View Ratings</button>
+                <div class="ratings-popup">
+                    <ul>
+                        <li>Work Ethic: {{ review.work_ethic|rating_stars|safe }}</li>
+                        <li>Timeliness: {{ review.timeliness|rating_stars|safe }}</li>
+                        <li>Leadership Skills: {{ review.leadership_skills|rating_stars|safe }}</li>
+                        <li>Charisma: {{ review.charisma|rating_stars|safe }}</li>
+                        <li>Agreeableness: {{ review.agreeable|rating_stars|safe }}</li>
+                        <li>Pragmatism: {{ review.pragmatic|yesno:"Yes,No" }}</li>
+                        <li>Reliability: {{ review.reliability|rating_stars|safe }}</li>
+                        <li>Trustworthiness: {{ review.trustworthiness|rating_stars|safe }}</li>
+                    </ul>
+                </div>
+            </td>
+            <td>{{ review.created_at|date:"Y-m-d H:i" }}</td>
+            <td>{{ review.class_code }}</td>
+            <td>{{ review.project_title }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No reviews found.</p>
+{% endif %}
+{% endblock %}
+{% block javascript %}
+<script>
+    // JavaScript to handle the pop-ups
+    const viewCommentBtns = document.querySelectorAll('.view-comment-btn');
+    const commentPopups = document.querySelectorAll('.comment-popup');
+    const viewRatingsBtns = document.querySelectorAll('.view-ratings-btn');
+    const ratingsPopups = document.querySelectorAll('.ratings-popup');
+
+    viewCommentBtns.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+            commentPopups[index].classList.toggle('show-comment');
+        });
+    });
+
+    viewRatingsBtns.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+            ratingsPopups[index].classList.toggle('show-ratings');
+        });
+    });
+</script>
+{% endblock %}

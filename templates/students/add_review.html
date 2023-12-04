@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-4 mb-5">
+    <h2 class="mb-3">Add a Review</h2>
+    <p class="text-muted">
+        Please provide a rating for each category. The scale is as follows:<br>
+        <strong>n/a:</strong> Grade does not apply for this assignment.<br>
+        <strong>1:</strong> The worst possible rating. "F" for fail.<br>
+        <strong>2:</strong> A bad rating but not the worst. "D" grade.<br>
+        <strong>3:</strong> Okay - meets the minimum standard, akin to a "C" grade.<br>
+        <strong>4:</strong> Above average - more than the minimum. "B" grade.<br>
+        <strong>5:</strong> Substantial effort - almost above and beyond, "A" for effort.
+    </p>
+
+    <form method="post" action="{% url 'add_review' %}" class="needs-validation">
+        {% csrf_token %}
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                <strong>Errors:<br></strong>
+                {{ form.non_field_errors }}
+                {% for field in form %}
+                    {{ field.label }}
+                    {{ field.errors }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div id="student-review-form" style="display: block;">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <input type="hidden" name="form_type" id="form_type" value="student">
+                    {{ form.as_p }}
+                    <button class="btn btn-primary" type="submit">Submit Review</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form method="post" action="{% url 'add_review' %}" class="needs-validation">
+        {% csrf_token %}
+        {% if instructor_form.errors %}
+            <div class="alert alert-danger">
+                <strong>Errors:<br></strong>
+                {{ instructor_form.non_field_errors }}
+                {% for field in instructor_form %}
+                    {{ field.label }}
+                    {{ field.errors }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div id="instructor-review-form" style="display: none;">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    {{ instructor_form.as_p }}
+                    <input type="hidden" name="form_type" id="form_type" value="instructor">
+                    <button class="btn btn-primary" type="submit">Submit Instructor Review</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block javascript %}
+<script>
+    $('#id_reviewee').on('change', function() {
+        var selectedName = $(this).find("option:selected").text();
+        var selectedUserId = $(this).val(); // Get the selected user's ID
+        $.ajax({
+            url: '/get-user-type/', // URL to a Django view that returns the user type
+            data: {
+                'user_id': selectedUserId
+            },
+            success: function(data) {
+                if (data.user_type === 'instructor') {
+                    $('#student-review-form').hide();     // Hide the student review form
+                    $('#instructor-review-form').show();  // Show the instructor review form
+                    $('#id_instructor_name').val(selectedName);
+                } else if (data.user_type === 'student') {
+                    $('#instructor-review-form').hide();  // Hide the instructor review form
+                    $('#student-review-form').show();     // Show the student review form
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}
