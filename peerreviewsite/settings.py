@@ -31,6 +31,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'peerreviewsite.urls'
@@ -100,5 +101,5 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),  # This tells Django to look for static files in the BASE_DIR / 'static' directory.
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # This is where Django will collect static files for deployment.
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
  
