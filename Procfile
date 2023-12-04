@@ -1,1 +1,1 @@
-web: gunicorn 'peerreviewsite.wsgi.application'
+web: gunicorn 'peerreviewsite.wsgi'

@@ -50,7 +50,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'peerreviewsite.wsgi.application'
+WSGI_APPLICATION = 'peerreviewsite.wsgi'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
